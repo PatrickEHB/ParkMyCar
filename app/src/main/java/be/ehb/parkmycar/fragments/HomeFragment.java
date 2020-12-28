@@ -1,5 +1,6 @@
 package be.ehb.parkmycar.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 import java.util.ArrayList;
 
 import be.ehb.parkmycar.R;
@@ -22,7 +26,8 @@ import be.ehb.parkmycar.util.ParkingAdapter;
 
 public class HomeFragment extends Fragment {
 
-
+    private RequestQueue mQueue;
+    private Context mContext ;
     ParkingAdapter parkingAdapter;
 
     public HomeFragment() {
@@ -32,24 +37,30 @@ public class HomeFragment extends Fragment {
     public static HomeFragment newInstance() {  return new HomeFragment();  }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {   super.onCreate(savedInstanceState);  }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        final RecyclerView rvParkings = rootView.findViewById(R.id.rc_parkings);
+
+        final RecyclerView rvParkings = rootView.findViewById(R.id.rv_parkings);
         parkingAdapter = new ParkingAdapter();
         rvParkings.setAdapter(parkingAdapter);
 
-        ParkingViewModel parkingModel = new ViewModelProvider(this).get(ParkingViewModel.class);
+        ParkingViewModel parkingModel = new ViewModelProvider(getActivity()).get(ParkingViewModel.class);
+
         parkingModel.getParkings().observeForever(new Observer<ArrayList<Parking>>() {
             @Override
             public void onChanged(ArrayList<Parking> parkings) {
                 parkingAdapter.addParking(parkings);
             }
         });
-
-
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+        rvParkings.setLayoutManager(manager);
+        return rootView;
 //        parkingModel = new ViewModelProvider(getActivity()).get(ParkingViewModel.class);
 //
 //        RecyclerView rvParkings = rootView.findViewById(R.id.rc_parkings);
@@ -64,6 +75,6 @@ public class HomeFragment extends Fragment {
 //        });
 //        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
 //        rvParkings.setLayoutManager(manager);
-        return rootView;
+
     }
 }

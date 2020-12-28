@@ -31,6 +31,9 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
 
     }
 
+    public ParkingAdapter() {
+        this.items = new ArrayList<Parking>();
+    }
 
     @NonNull
     @Override
@@ -40,16 +43,15 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         LayoutInflater mLayoutInflater = LayoutInflater.from(mContext);
         View card = mLayoutInflater.inflate(R.layout.park_card, parent, false);
 
-
         return new ParkingViewHolder(card);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ParkingViewHolder holder, int position) {
         Parking currentParking = items.get(position);
-        holder.txtNaam.setText(currentParking.getNaam());
-        holder.txtMaatschapij.setText(currentParking.getBeheerMaatschapij());
-        holder.txtplaatsen.setText(currentParking.getAantalPlaatsen());
+        holder.txtNaam.setText(currentParking.getProprietaire_beheersmaatschappij());
+        holder.txtMaatschapij.setText(currentParking.getNom_naam());
+        holder.txtplaatsen.setText(currentParking.getNombre_de_places_aantal_plaatsen());
     }
 
     public void addParking(ArrayList<Parking> newParkings) {

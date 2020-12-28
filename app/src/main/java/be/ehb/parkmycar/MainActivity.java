@@ -15,12 +15,6 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
 
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +23,21 @@ public class MainActivity extends AppCompatActivity {
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        mNavController= Navigation.findNavController(this,R.id.nav_host);
-        mAppBarConfiguration=new AppBarConfiguration.Builder().build();
-        NavigationUI.setupActionBarWithNavController(this,mNavController,mAppBarConfiguration);
+        mNavController = Navigation.findNavController(this, R.id.nav_host);
+        mAppBarConfiguration = new AppBarConfiguration.Builder().build();
+        NavigationUI.setupActionBarWithNavController(this, mNavController, mAppBarConfiguration);
+
+//        String jsonFileString = ReadJson.getJsonFile(getApplicationContext(), "parking.json");
+//        Log.i("data",jsonFileString);
+//
+//        Gson gson = new Gson();
+//        Type listParking = new TypeToken<List<Parking>>() {
+//        }.getType();
+//        List<Parking> parking = gson.fromJson(jsonFileString, listParking);
+//        for (int i = 0;i<parking.size();i++){
+//            Log.i("data",">Item"+i+"\n"+parking.get(i));
+//        }
     }
+
+
 }

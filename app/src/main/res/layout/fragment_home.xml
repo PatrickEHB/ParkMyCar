@@ -7,7 +7,7 @@
     tools:context=".fragments.HomeFragment" >
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rc_parkings"
+        android:id="@+id/rv_parkings"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="32dp"
