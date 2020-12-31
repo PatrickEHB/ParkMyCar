@@ -1,39 +1,70 @@
 package be.ehb.parkmycar.util;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import be.ehb.parkmycar.R;
 import be.ehb.parkmycar.model.Parking;
+import be.ehb.parkmycar.model.ParkingViewModel;
 
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingViewHolder> {
 
     private ArrayList<Parking> items;
+    private List<Parking> showParkings;
+    private FragmentActivity activity;
 
+    public ParkingAdapter(FragmentActivity activity) {
+        this.items = new ArrayList<>();;
+        this.showParkings = showParkings;
+        this.activity = activity;
+    }
 
     class ParkingViewHolder extends RecyclerView.ViewHolder {
         final TextView txtNaam, txtMaatschapij, txtplaatsen;
+        final Button btnToLocation;
+
 
         public ParkingViewHolder(@NonNull View itemView) {
             super(itemView);
             txtNaam = itemView.findViewById(R.id.txt_naam_parking);
             txtMaatschapij = itemView.findViewById(R.id.txt_naam_maatschap);
             txtplaatsen = itemView.findViewById(R.id.txt_aantal_plaatsen);
+            btnToLocation = itemView.findViewById(R.id.btn_go_location);
+            btnToLocation.setOnClickListener(toLocation);
+
         }
 
+        private View.OnClickListener toLocation = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = getAdapterPosition();
+                Log.d("debug", "" + pos);
+                ParkingViewModel pmodel = new ViewModelProvider(activity).get(ParkingViewModel.class);
+              Uri locatie =  pmodel.getLocation(pos);
+                Log.d("debug", "" + locatie);
+            }
+        };
+
     }
 
-    public ParkingAdapter() {
-        this.items = new ArrayList<Parking>();
-    }
+
 
     @NonNull
     @Override

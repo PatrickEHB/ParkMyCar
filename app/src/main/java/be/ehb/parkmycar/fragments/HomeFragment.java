@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
 
     private RequestQueue mQueue;
     private Context mContext ;
-    ParkingAdapter parkingAdapter;
+    private ParkingAdapter parkingAdapter;
 
     public HomeFragment() {
 
@@ -47,8 +47,9 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         final RecyclerView rvParkings = rootView.findViewById(R.id.rv_parkings);
-        parkingAdapter = new ParkingAdapter();
+        parkingAdapter = new ParkingAdapter(getActivity());
         rvParkings.setAdapter(parkingAdapter);
+
 
         ParkingViewModel parkingModel = new ViewModelProvider(getActivity()).get(ParkingViewModel.class);
 

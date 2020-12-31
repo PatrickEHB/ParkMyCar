@@ -31,6 +31,13 @@ public class ParkingViewModel extends AndroidViewModel {
 
     private MutableLiveData<ArrayList<Parking>> parking;
 
+     public Uri getLocation(int p) {
+        Uri location ;
+         location= parking.getValue().get(p).getCoordonnes_coordinaten();
+
+        return location;
+    }
+
     public ParkingViewModel(@NonNull Application application) {
         super(application);
         if (parking == null) {
@@ -50,10 +57,11 @@ public class ParkingViewModel extends AndroidViewModel {
                                     JSONObject fields = records.getJSONObject("fields");
                                     String  beheersmaatschappij = fields.getString("proprietaire_beheersmaatschappij");
                                     String name = fields.getString("nom_naam");
+                                    String location = fields.getString("coordonnes_coordinaten");
                                     String recordid = records.getString("recordid");
                                     int plaatsen = fields.getInt("nombre_de_places_aantal_plaatsen");
                                     String places = plaatsen + " ";
-                                    testParkings.add(new Parking("Maatschapij  "+beheersmaatschappij, "Naam  "+name, "Plaatsen  "+places,recordid, Uri.parse("geo:40,3?z=8")));
+                                    testParkings.add(new Parking("Maatschapij  "+beheersmaatschappij, "Naam  "+name, "Plaatsen  "+places,recordid, Uri.parse(location)));
                                     parking.setValue(testParkings);
                                 }
                             } catch (JSONException e) {
@@ -77,6 +85,7 @@ public class ParkingViewModel extends AndroidViewModel {
     public MutableLiveData<ArrayList<Parking>> getParkings() {
         return parking;
     }
+    private RequestQueue mQueue;
 
     //    public MutableLiveData<ArrayList<Parking>> getParkings() {
 //        if (parking == null) {
@@ -90,7 +99,7 @@ public class ParkingViewModel extends AndroidViewModel {
 //        }
 //        return parking;
 //    }
-    private RequestQueue mQueue;
+
 
 //    public MutableLiveData<ArrayList<Parking>> getParkings() {
 //        if (parking == null) {
