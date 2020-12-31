@@ -19,8 +19,8 @@
             android:id="@+id/txt_aantal_plaatsen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginStart="272dp"
+            android:layout_marginTop="16dp"
             android:text="Plaatsen"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="88dp"
+            android:layout_marginTop="56dp"
             android:text="Naam maatschapij"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -31,7 +31,8 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
     private FragmentActivity activity;
 
     public ParkingAdapter(FragmentActivity activity) {
-        this.items = new ArrayList<>();;
+        this.items = new ArrayList<>();
+        ;
         this.showParkings = showParkings;
         this.activity = activity;
     }
@@ -57,13 +58,19 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
                 int pos = getAdapterPosition();
                 Log.d("debug", "" + pos);
                 ParkingViewModel pmodel = new ViewModelProvider(activity).get(ParkingViewModel.class);
-              Uri locatie =  pmodel.getLocation(pos);
+                Uri locatie = pmodel.getLocation(pos);
                 Log.d("debug", "" + locatie);
+                Intent locIntent = new Intent(Intent.ACTION_VIEW);
+                String locatieClean = locatie.toString().replace("[", "");
+                locatieClean = locatieClean.replace("]", "");
+                Uri data = Uri.parse("geo:" + locatieClean + "?q=" + locatieClean + "(Label+Name)");
+                locIntent.setData(data);
+                Log.d("debug", "" + data);
+                activity.startActivity(locIntent);
             }
         };
 
     }
-
 
 
     @NonNull
