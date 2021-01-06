@@ -26,14 +26,14 @@ import be.ehb.parkmycar.model.ParkingViewModel;
 
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingViewHolder> {
 
-    private ArrayList<Parking> items;
+    private List<Parking> items;
     private List<Parking> showParkings;
     private FragmentActivity activity;
 
     public ParkingAdapter(FragmentActivity activity) {
         this.items = new ArrayList<>();
         ;
-        this.showParkings = showParkings;
+        this.showParkings = new ArrayList<>();
         this.activity = activity;
     }
 
@@ -48,17 +48,21 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
             txtMaatschapij = itemView.findViewById(R.id.txt_naam_maatschap);
             txtplaatsen = itemView.findViewById(R.id.txt_aantal_plaatsen);
             btnToLocation = itemView.findViewById(R.id.btn_go_location);
-            btnToLocation.setOnClickListener(toLocation);
+           btnToLocation.setOnClickListener(toLocation);
 
         }
+
 
         private View.OnClickListener toLocation = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int pos = getAdapterPosition();
-                Log.d("debug", "" + pos);
-                ParkingViewModel pmodel = new ViewModelProvider(activity).get(ParkingViewModel.class);
-                Uri locatie = pmodel.getLocation(pos);
+                Parking found = items.get(pos);
+      //           String recordid= found.getRecordid();
+    //            Log.d("debug", "" + pos+"  "+recordid);
+   //            ParkingViewModel pmodel = new ViewModelProvider(activity).get(ParkingViewModel.class);
+  //              Uri locatie = pmodel.getLocation(recordid);
+                Uri locatie = Uri.parse(found.getCoordonnes_coordinaten());
                 Log.d("debug", "" + locatie);
                 Intent locIntent = new Intent(Intent.ACTION_VIEW);
                 String locatieClean = locatie.toString().replace("[", "");
@@ -92,9 +96,9 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         holder.txtplaatsen.setText(currentParking.getNombre_de_places_aantal_plaatsen());
     }
 
-    public void addParking(ArrayList<Parking> newParkings) {
+    public void addParking(List<Parking> newParkings) {
         items = newParkings;
-
+        showParkings.addAll(newParkings);
         notifyDataSetChanged();
     }
 

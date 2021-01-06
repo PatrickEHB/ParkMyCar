@@ -9,4 +9,8 @@
         android:name="be.ehb.parkmycar.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/preferrenceFragment"
+        android:name="be.ehb.parkmycar.fragments.PreferrenceFragment"
+        android:label="PreferrenceFragment" />
 </navigation>

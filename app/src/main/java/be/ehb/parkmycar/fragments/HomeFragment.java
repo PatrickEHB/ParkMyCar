@@ -3,7 +3,9 @@ package be.ehb.parkmycar.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import be.ehb.parkmycar.R;
 import be.ehb.parkmycar.model.Parking;
@@ -43,6 +46,12 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext= (FragmentActivity) context;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -53,9 +62,9 @@ public class HomeFragment extends Fragment {
 
         ParkingViewModel parkingModel = new ViewModelProvider(getActivity()).get(ParkingViewModel.class);
 
-        parkingModel.getParkings().observeForever(new Observer<ArrayList<Parking>>() {
+        parkingModel.getParkings().observeForever(new Observer<List<Parking>>() {
             @Override
-            public void onChanged(ArrayList<Parking> parkings) {
+            public void onChanged(List<Parking> parkings) {
                 parkingAdapter.addParking(parkings);
             }
         });

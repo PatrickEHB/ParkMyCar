@@ -2,13 +2,16 @@ package be.ehb.parkmycar.model;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.preference.PreferenceManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,68 +26,98 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import be.ehb.parkmycar.fragments.HomeFragment;
 
 public class ParkingViewModel extends AndroidViewModel {
 
+    private final Application mApplication;
+    private LiveData<List<Parking>> parking;
+    private ParkingDatabase database;
 
-    private MutableLiveData<ArrayList<Parking>> parking;
 
-     public Uri getLocation(int p) {
-        Uri location ;
-         location= parking.getValue().get(p).getCoordonnes_coordinaten();
+    public Uri getLocation(String p) {
+        Uri location;
+
+
+       Parking found = database.getParkingDao().findById(p);
+
+
+        location = Uri.parse(found.getCoordonnes_coordinaten());
 
         return location;
     }
 
     public ParkingViewModel(@NonNull Application application) {
         super(application);
-        if (parking == null) {
-            mQueue = Volley.newRequestQueue(getApplication());
-            parking = new MutableLiveData<>();
-            ArrayList<Parking> testParkings = new ArrayList<>();
-            String url = "https://opendata.brussels.be/api/records/1.0/search/?dataset=parkings&q=";
+        mApplication = application;
+        database = ParkingDatabase.getInstance(application);
+        parking = database.getParkingDao().getAllParkings();
+    }
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                JSONArray jsonArray = response.getJSONArray("records");
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject records = jsonArray.getJSONObject(i);
-                                    JSONObject fields = records.getJSONObject("fields");
-                                    String  beheersmaatschappij = fields.getString("proprietaire_beheersmaatschappij");
-                                    String name = fields.getString("nom_naam");
-                                    String location = fields.getString("coordonnes_coordinaten");
-                                    String recordid = records.getString("recordid");
-                                    int plaatsen = fields.getInt("nombre_de_places_aantal_plaatsen");
-                                    String places = plaatsen + " ";
-                                    testParkings.add(new Parking("Maatschapij  "+beheersmaatschappij, "Naam  "+name, "Plaatsen  "+places,recordid, Uri.parse(location)));
-                                    parking.setValue(testParkings);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+    public LiveData<List<Parking>> getParkings() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mApplication);
+        Boolean value = pref.getBoolean("switch_preference_increase", true);
+
+        Log.d("debug", "" + value);
+        //    int aa = database.getParkingDao().count();
+        //   if (aa == 0) {
+
+        // if (parking == null) {
+        mQueue = Volley.newRequestQueue(getApplication());
+        // parking = new MutableLiveData<>();
+        // ArrayList<Parking> testParkings = new ArrayList<>();
+        String url = "https://opendata.brussels.be/api/records/1.0/search/?dataset=parkings&q=";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("records");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject records = jsonArray.getJSONObject(i);
+                                JSONObject fields = records.getJSONObject("fields");
+                                String beheersmaatschappij = fields.getString("proprietaire_beheersmaatschappij");
+                                String name = fields.getString("nom_naam");
+                                String location = fields.getString("coordonnes_coordinaten");
+                                String recordid = records.getString("recordid");
+                                int plaatsen = fields.getInt("nombre_de_places_aantal_plaatsen");
+                                String places = plaatsen + " ";
+
+
+                                Parking p = new Parking("Maatschapij  " + beheersmaatschappij, "Naam  " + name,
+                                        "Plaatsen  " + places, recordid, "Neen", location);
+                                ParkingDatabase.mEXECUTOR_SERVICE.execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        database.getParkingDao().insertParking(p);
+                                    }
+                                });
+
                             }
-
+                            //    parking.setValue(testParkings);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    }, new Response.ErrorListener() {
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("test", error.getMessage());
-                }
-            });
-            mQueue.add(request);
+                    }
+                }, new Response.ErrorListener() {
 
-        }
-
-    }
-
-    public MutableLiveData<ArrayList<Parking>> getParkings() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("test", error.getMessage());
+            }
+        });
+        mQueue.add(request);
+        // }
+        // }
+        parking = database.getParkingDao().getAllParkings();
         return parking;
+        // return parking;
     }
+
     private RequestQueue mQueue;
 
     //    public MutableLiveData<ArrayList<Parking>> getParkings() {

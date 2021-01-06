@@ -2,21 +2,28 @@ package be.ehb.parkmycar.model;
 
 import android.net.Uri;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
-
+@Entity
 public class Parking implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    private long id;
 
-private String proprietaire_beheersmaatschappij,recordid, nom_naam, nombre_de_places_aantal_plaatsen;
-private Uri coordonnes_coordinaten;
+    private String proprietaire_beheersmaatschappij, nom_naam, nombre_de_places_aantal_plaatsen,recordid, favorite;
+    private String coordonnes_coordinaten;
 
     public Parking() {
     }
 
-    public Parking(String proprietaire_beheersmaatschappij, String nom_naam, String nombre_de_places_aantal_plaatsen,String recordid,   Uri coordonnes_coordinaten) {
+    public Parking(String proprietaire_beheersmaatschappij, String nom_naam, String nombre_de_places_aantal_plaatsen, String recordid, String favorite, String coordonnes_coordinaten) {
         this.proprietaire_beheersmaatschappij = proprietaire_beheersmaatschappij;
-        this.recordid = recordid;
+
         this.nom_naam = nom_naam;
         this.nombre_de_places_aantal_plaatsen = nombre_de_places_aantal_plaatsen;
+        this.recordid = recordid;
+        this.favorite = favorite;
         this.coordonnes_coordinaten = coordonnes_coordinaten;
     }
 
@@ -26,6 +33,30 @@ private Uri coordonnes_coordinaten;
 
     public void setProprietaire_beheersmaatschappij(String proprietaire_beheersmaatschappij) {
         this.proprietaire_beheersmaatschappij = proprietaire_beheersmaatschappij;
+    }
+
+    public String getRecordid() {
+        return recordid;
+    }
+
+    public void setRecordid(String recordid) {
+        this.recordid = recordid;
+    }
+
+    public String getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(String favorite) {
+        this.favorite = favorite;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNom_naam() {
@@ -44,15 +75,15 @@ private Uri coordonnes_coordinaten;
         this.nombre_de_places_aantal_plaatsen = nombre_de_places_aantal_plaatsen;
     }
 
-    public Uri getCoordonnes_coordinaten() {
+    public String getCoordonnes_coordinaten() {
         return coordonnes_coordinaten;
     }
 
-    public void setCoordonnes_coordinaten(Uri coordonnes_coordinaten) {
+    public void setCoordonnes_coordinaten(String coordonnes_coordinaten) {
         this.coordonnes_coordinaten = coordonnes_coordinaten;
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "Parking{" +
                 "proprietaire_beheersmaatschappij='" + proprietaire_beheersmaatschappij + '\'' +
@@ -61,5 +92,5 @@ private Uri coordonnes_coordinaten;
                 ", nombre_de_places_aantal_plaatsen='" + nombre_de_places_aantal_plaatsen + '\'' +
                 ", coordonnes_coordinaten=" + coordonnes_coordinaten +
                 '}';
-    }
+    }*/
 }
