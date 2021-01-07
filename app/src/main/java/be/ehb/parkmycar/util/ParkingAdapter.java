@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,28 +41,45 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
     class ParkingViewHolder extends RecyclerView.ViewHolder {
         final TextView txtNaam, txtMaatschapij, txtplaatsen;
         final Button btnToLocation;
+        final CheckBox fav;
 
 
         public ParkingViewHolder(@NonNull View itemView) {
             super(itemView);
             txtNaam = itemView.findViewById(R.id.txt_naam_parking);
             txtMaatschapij = itemView.findViewById(R.id.txt_naam_maatschap);
+            fav = itemView.findViewById(R.id.check_fav);
+            fav.setOnClickListener(favorite);
             txtplaatsen = itemView.findViewById(R.id.txt_aantal_plaatsen);
             btnToLocation = itemView.findViewById(R.id.btn_go_location);
-           btnToLocation.setOnClickListener(toLocation);
+            btnToLocation.setOnClickListener(toLocation);
 
         }
 
+        private View.OnClickListener favorite = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = getAdapterPosition();
+                Parking clicked = items.get(pos);
+                if ((clicked.getFavorite()).matches("Neen")   ) {
+                    clicked.setFavorite("Ja");
+                } else {
+                    clicked.setFavorite("Neen");
+                }
+                ParkingViewModel pmodel = new ViewModelProvider(activity).get(ParkingViewModel.class);
+                pmodel.updateParking(clicked);
+            }
+        };
 
         private View.OnClickListener toLocation = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int pos = getAdapterPosition();
                 Parking found = items.get(pos);
-      //           String recordid= found.getRecordid();
-    //            Log.d("debug", "" + pos+"  "+recordid);
-   //            ParkingViewModel pmodel = new ViewModelProvider(activity).get(ParkingViewModel.class);
-  //              Uri locatie = pmodel.getLocation(recordid);
+                //           String recordid= found.getRecordid();
+                //            Log.d("debug", "" + pos+"  "+recordid);
+                //            ParkingViewModel pmodel = new ViewModelProvider(activity).get(ParkingViewModel.class);
+                //              Uri locatie = pmodel.getLocation(recordid);
                 Uri locatie = Uri.parse(found.getCoordonnes_coordinaten());
                 Log.d("debug", "" + locatie);
                 Intent locIntent = new Intent(Intent.ACTION_VIEW);
@@ -93,7 +111,15 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         Parking currentParking = items.get(position);
         holder.txtNaam.setText(currentParking.getProprietaire_beheersmaatschappij());
         holder.txtMaatschapij.setText(currentParking.getNom_naam());
-        holder.txtplaatsen.setText(currentParking.getNombre_de_places_aantal_plaatsen());
+        String parkings = String.valueOf(currentParking.getNombre_de_places_aantal_plaatsen());
+        parkings = "Plaatsen: " + parkings.substring(0, parkings.length() - 2);
+        holder.txtplaatsen.setText(parkings);
+        if ((currentParking.getFavorite()).matches("Neen") ) {
+            holder.fav.setChecked(false);
+        } else {
+            holder.fav.setChecked(true);
+        }
+         holder.fav.setText(currentParking.getFavorite());
     }
 
     public void addParking(List<Parking> newParkings) {

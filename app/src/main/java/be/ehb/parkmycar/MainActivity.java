@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         mNavController = Navigation.findNavController(this, R.id.nav_host);
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment).build();
         NavigationUI.setupActionBarWithNavController(this, mNavController, mAppBarConfiguration);
-
+// Geprobeerd om json opte halen uit een file
 //        String jsonFileString = ReadJson.getJsonFile(getApplicationContext(), "parking.json");
 //        Log.i("data",jsonFileString);
 //

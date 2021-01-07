@@ -39,14 +39,18 @@ public class ParkingViewModel extends AndroidViewModel {
 
     public Uri getLocation(String p) {
         Uri location;
-
-
-       Parking found = database.getParkingDao().findById(p);
-
-
+        Parking found = database.getParkingDao().findById(p);
         location = Uri.parse(found.getCoordonnes_coordinaten());
-
         return location;
+    }
+
+    public void updateParking(Parking p) {
+        ParkingDatabase.mEXECUTOR_SERVICE.execute(new Runnable() {
+            @Override
+            public void run() {
+                database.getParkingDao().updateParking(p);
+            }
+        });
     }
 
     public ParkingViewModel(@NonNull Application application) {
@@ -58,120 +62,74 @@ public class ParkingViewModel extends AndroidViewModel {
 
     public LiveData<List<Parking>> getParkings() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mApplication);
-        Boolean value = pref.getBoolean("switch_preference_increase", true);
-
+        boolean value = pref.getBoolean("switch_preference_increase", false);
+        boolean downloaded = pref.getBoolean("isDownloaded", false);
         Log.d("debug", "" + value);
         //    int aa = database.getParkingDao().count();
         //   if (aa == 0) {
 
-        // if (parking == null) {
-        mQueue = Volley.newRequestQueue(getApplication());
-        // parking = new MutableLiveData<>();
-        // ArrayList<Parking> testParkings = new ArrayList<>();
-        String url = "https://opendata.brussels.be/api/records/1.0/search/?dataset=parkings&q=";
+        if (downloaded == false) {
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("records");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject records = jsonArray.getJSONObject(i);
-                                JSONObject fields = records.getJSONObject("fields");
-                                String beheersmaatschappij = fields.getString("proprietaire_beheersmaatschappij");
-                                String name = fields.getString("nom_naam");
-                                String location = fields.getString("coordonnes_coordinaten");
-                                String recordid = records.getString("recordid");
-                                int plaatsen = fields.getInt("nombre_de_places_aantal_plaatsen");
-                                String places = plaatsen + " ";
+            mQueue = Volley.newRequestQueue(getApplication());
+            // parking = new MutableLiveData<>();
+            // ArrayList<Parking> testParkings = new ArrayList<>();
+            String url = "https://opendata.brussels.be/api/records/1.0/search/?dataset=parkings&q=";
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONArray jsonArray = response.getJSONArray("records");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject records = jsonArray.getJSONObject(i);
+                                    JSONObject fields = records.getJSONObject("fields");
+                                    String beheersmaatschappij = fields.getString("proprietaire_beheersmaatschappij");
+                                    String name = fields.getString("nom_naam");
+                                    String location = fields.getString("coordonnes_coordinaten");
+                                    String recordid = records.getString("recordid");
+                                    double plaatsen = fields.getDouble("nombre_de_places_aantal_plaatsen");
+                                    String places = plaatsen + "";
 
 
-                                Parking p = new Parking("Maatschapij  " + beheersmaatschappij, "Naam  " + name,
-                                        "Plaatsen  " + places, recordid, "Neen", location);
-                                ParkingDatabase.mEXECUTOR_SERVICE.execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        database.getParkingDao().insertParking(p);
-                                    }
-                                });
+                                    Parking p = new Parking("Maatschapij  " + beheersmaatschappij, "Naam  " + name,
+                                            plaatsen, recordid, "Neen", location);
+                                    ParkingDatabase.mEXECUTOR_SERVICE.execute(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            database.getParkingDao().insertParking(p);
+                                        }
+                                    });
 
+                                }
+                                //    parking.setValue(testParkings);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            //    parking.setValue(testParkings);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+
                         }
+                    }, new Response.ErrorListener() {
 
-                    }
-                }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("test", error.getMessage());
+                }
+            });
+            mQueue.add(request);
+            pref.edit().putBoolean("isDownloaded", true).apply();
+        }
+        // }
+        if (value == true) {
+            parking = database.getParkingDao().getAllParkingsAscending();
+        } else {
+            parking = database.getParkingDao().getAllParkings();
+        }
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("test", error.getMessage());
-            }
-        });
-        mQueue.add(request);
-        // }
-        // }
-        parking = database.getParkingDao().getAllParkings();
         return parking;
         // return parking;
     }
 
     private RequestQueue mQueue;
-
-    //    public MutableLiveData<ArrayList<Parking>> getParkings() {
-//        if (parking == null) {
-//            parking = new MutableLiveData<>();
-//            ArrayList<Parking> testParkings = new ArrayList<>();
-//            testParkings.add(new Parking("test1naam", "test1maatschapij","50", "1", Uri.parse("geo:40,3?z=8")));
-//            testParkings.add(new Parking("test1naam", "test1maatschapij","50", "zd", Uri.parse("geo:40,3?z=8")));
-//            testParkings.add(new Parking("test1naam", "test1maatschapij","50", "785", Uri.parse("geo:40,3?z=8")));
-//            testParkings.add(new Parking("test1naam", "test1maatschapij","50", "7575", Uri.parse("geo:40,3?z=8")));
-//            parking.setValue(testParkings);
-//        }
-//        return parking;
-//    }
-
-
-//    public MutableLiveData<ArrayList<Parking>> getParkings() {
-//        if (parking == null) {
-//            mQueue = Volley.newRequestQueue(getApplication());
-//            parking = new MutableLiveData<>();
-//            ArrayList<Parking> testParkings = new ArrayList<>();
-//            String url = "https://opendata.brussels.be/api/records/1.0/search/?dataset=parkings&q=";
-//
-//            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-//                    new Response.Listener<JSONObject>() {
-//                        @Override
-//                        public void onResponse(JSONObject response) {
-//                            try {
-//                                JSONArray jsonArray = response.getJSONArray("records");
-//                                for (int i = 0; i < jsonArray.length(); i++) {
-//                                    JSONObject records = jsonArray.getJSONObject(i);
-//                                    String name = records.getString("nom_naam");
-//                                    String plaatsen = records.getString("nombre_de_places_aantal_plaatsen");
-//
-//                                    testParkings.add(new Parking(name, "name", "plaatsen", plaatsen, Uri.parse("geo:40,3?z=8")));
-//                                    parking.setValue(testParkings);
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//
-//                        }
-//                    }, new Response.ErrorListener() {
-//
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    Log.e("test", error.getMessage());
-//                }
-//            });
-//            mQueue.add(request);
-//
-//        }
-//        return parking;
-//    }
 
 
 }

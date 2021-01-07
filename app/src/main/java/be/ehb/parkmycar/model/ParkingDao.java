@@ -16,8 +16,8 @@ public interface ParkingDao {
     @Query("SELECT * FROM Parking ORDER BY proprietaire_beheersmaatschappij")
     LiveData<List<Parking>> getAllParkings();
 
-   // @Query("SELECT COUNT() FROM Parking ")
-  //  int count();
+    @Query("SELECT * FROM Parking ORDER BY nombre_de_places_aantal_plaatsen ASC")
+    LiveData<List<Parking>> getAllParkingsAscending();
 
     @Query("SELECT * FROM Parking WHERE recordid = :id ")
     Parking findById(String id);

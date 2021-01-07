@@ -11,13 +11,14 @@ public class Parking implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    private String proprietaire_beheersmaatschappij, nom_naam, nombre_de_places_aantal_plaatsen,recordid, favorite;
+    private String proprietaire_beheersmaatschappij, nom_naam,recordid, favorite;
+    private double nombre_de_places_aantal_plaatsen;
     private String coordonnes_coordinaten;
 
     public Parking() {
     }
 
-    public Parking(String proprietaire_beheersmaatschappij, String nom_naam, String nombre_de_places_aantal_plaatsen, String recordid, String favorite, String coordonnes_coordinaten) {
+    public Parking(String proprietaire_beheersmaatschappij, String nom_naam, double nombre_de_places_aantal_plaatsen, String recordid, String favorite, String coordonnes_coordinaten) {
         this.proprietaire_beheersmaatschappij = proprietaire_beheersmaatschappij;
 
         this.nom_naam = nom_naam;
@@ -67,11 +68,11 @@ public class Parking implements Serializable {
         this.nom_naam = nom_naam;
     }
 
-    public String getNombre_de_places_aantal_plaatsen() {
+    public double getNombre_de_places_aantal_plaatsen() {
         return nombre_de_places_aantal_plaatsen;
     }
 
-    public void setNombre_de_places_aantal_plaatsen(String nombre_de_places_aantal_plaatsen) {
+    public void setNombre_de_places_aantal_plaatsen(double nombre_de_places_aantal_plaatsen) {
         this.nombre_de_places_aantal_plaatsen = nombre_de_places_aantal_plaatsen;
     }
 
