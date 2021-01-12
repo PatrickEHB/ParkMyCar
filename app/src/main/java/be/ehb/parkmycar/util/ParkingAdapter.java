@@ -28,13 +28,11 @@ import be.ehb.parkmycar.model.ParkingViewModel;
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingViewHolder> {
 
     private List<Parking> items;
-    private List<Parking> showParkings;
+
     private FragmentActivity activity;
 
     public ParkingAdapter(FragmentActivity activity) {
         this.items = new ArrayList<>();
-        ;
-        this.showParkings = new ArrayList<>();
         this.activity = activity;
     }
 
@@ -42,6 +40,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         final TextView txtNaam, txtMaatschapij, txtplaatsen;
         final Button btnToLocation;
         final CheckBox fav;
+
 
 
         public ParkingViewHolder(@NonNull View itemView) {
@@ -54,6 +53,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
             btnToLocation = itemView.findViewById(R.id.btn_go_location);
             btnToLocation.setOnClickListener(toLocation);
 
+
         }
 
         private View.OnClickListener favorite = new View.OnClickListener() {
@@ -61,13 +61,14 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
             public void onClick(View v) {
                 int pos = getAdapterPosition();
                 Parking clicked = items.get(pos);
-                if ((clicked.getFavorite()).matches("Neen")   ) {
+                if ((clicked.getFavorite()).matches("Neen")) {
                     clicked.setFavorite("Ja");
                 } else {
                     clicked.setFavorite("Neen");
                 }
                 ParkingViewModel pmodel = new ViewModelProvider(activity).get(ParkingViewModel.class);
                 pmodel.updateParking(clicked);
+                notifyDataSetChanged();
             }
         };
 
@@ -100,8 +101,8 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
     public ParkingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         Context mContext = parent.getContext();
-        LayoutInflater mLayoutInflater = LayoutInflater.from(mContext);
-        View card = mLayoutInflater.inflate(R.layout.park_card, parent, false);
+       // LayoutInflater mLayoutInflater = LayoutInflater.from(mContext);
+        View card = LayoutInflater.from(mContext).inflate(R.layout.park_card, parent, false);
 
         return new ParkingViewHolder(card);
     }
@@ -114,18 +115,19 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         String parkings = String.valueOf(currentParking.getNombre_de_places_aantal_plaatsen());
         parkings = "Plaatsen: " + parkings.substring(0, parkings.length() - 2);
         holder.txtplaatsen.setText(parkings);
-        if ((currentParking.getFavorite()).matches("Neen") ) {
+        if ((currentParking.getFavorite()).matches("Neen")) {
             holder.fav.setChecked(false);
         } else {
             holder.fav.setChecked(true);
         }
-         holder.fav.setText(currentParking.getFavorite());
+        holder.fav.setText(currentParking.getFavorite());
     }
 
     public void addParking(List<Parking> newParkings) {
+        items.clear();
         items = newParkings;
-        showParkings.addAll(newParkings);
-        notifyDataSetChanged();
+
+
     }
 
     @Override

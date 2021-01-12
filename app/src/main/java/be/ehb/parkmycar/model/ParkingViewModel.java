@@ -67,7 +67,7 @@ public class ParkingViewModel extends AndroidViewModel {
         Log.d("debug", "" + value);
         //    int aa = database.getParkingDao().count();
         //   if (aa == 0) {
-
+        parking = null ;
         if (downloaded == false) {
 
             mQueue = Volley.newRequestQueue(getApplication());

@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment).build();
         NavigationUI.setupActionBarWithNavController(this, mNavController, mAppBarConfiguration);
 // Geprobeerd om json opte halen uit een file
+
 //        String jsonFileString = ReadJson.getJsonFile(getApplicationContext(), "parking.json");
 //        Log.i("data",jsonFileString);
 //

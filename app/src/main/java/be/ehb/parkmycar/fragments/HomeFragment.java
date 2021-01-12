@@ -28,7 +28,7 @@ import be.ehb.parkmycar.util.ParkingAdapter;
 
 
 public class HomeFragment extends Fragment {
-
+    private RecyclerView rvParkings;
     private RequestQueue mQueue;
     private Context mContext ;
     private ParkingAdapter parkingAdapter;
@@ -55,21 +55,25 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        final RecyclerView rvParkings = rootView.findViewById(R.id.rv_parkings);
+          rvParkings = rootView.findViewById(R.id.rv_parkings);
         parkingAdapter = new ParkingAdapter(getActivity());
         rvParkings.setAdapter(parkingAdapter);
 
 
         ParkingViewModel parkingModel = new ViewModelProvider(getActivity()).get(ParkingViewModel.class);
 
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+        rvParkings.setLayoutManager(manager);
+
         parkingModel.getParkings().observeForever(new Observer<List<Parking>>() {
             @Override
             public void onChanged(List<Parking> parkings) {
+
                 parkingAdapter.addParking(parkings);
+                parkingAdapter.notifyDataSetChanged();
             }
         });
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
-        rvParkings.setLayoutManager(manager);
+
         return rootView;
 //        parkingModel = new ViewModelProvider(getActivity()).get(ParkingViewModel.class);
 //
