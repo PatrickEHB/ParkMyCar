@@ -7,10 +7,19 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="be.ehb.parkmycar.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="ParkMyCar"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/go_to_about_me"
+            app:destination="@id/aboutMeFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/preferrenceFragment"
+        android:id="@+id/mi_prefference_frag"
         android:name="be.ehb.parkmycar.fragments.PreferrenceFragment"
-        android:label="PreferrenceFragment" />
+        android:label="Settings" />
+    <fragment
+        android:id="@+id/aboutMeFragment"
+        android:name="be.ehb.parkmycar.fragments.AboutMeFragment"
+        android:label="fragment_about_me"
+        tools:layout="@layout/fragment_about_me" />
 </navigation>

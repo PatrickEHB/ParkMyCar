@@ -43,20 +43,20 @@ public class MainActivity extends AppCompatActivity {
 //        }
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
+     @Override
+     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(mNavController,mAppBarConfiguration)|| super.onSupportNavigateUp();
-    }
+     }
 
-    @Override
+  /*  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        NavigationUI.onNavDestinationSelected(item,mNavController);
+       // NavigationUI.onNavDestinationSelected(item,mNavController);
         return super.onOptionsItemSelected(item);
     }
 }

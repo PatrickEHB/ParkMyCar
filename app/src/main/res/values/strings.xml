@@ -5,4 +5,5 @@
     <string name="btn_go_location">Toon op map</string>
     <string name="str_switch_pref">Increasing</string>
     <string name="str_setting_item">Setting</string>
+    <string name="str_about_me">About Me</string>
 </resources>
