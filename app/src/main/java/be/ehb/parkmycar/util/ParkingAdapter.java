@@ -120,7 +120,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         } else {
             holder.fav.setChecked(true);
         }
-        holder.fav.setText(currentParking.getFavorite());
+       // holder.fav.setText(currentParking.getFavorite());
     }
 
     public void addParking(List<Parking> newParkings) {

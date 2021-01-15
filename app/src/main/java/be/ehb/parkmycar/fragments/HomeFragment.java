@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rvParkings.setLayoutManager(manager);
 
-        parkingModel.getParkings().observeForever(new Observer<List<Parking>>() {
+        parkingModel.getParkings().observe(getViewLifecycleOwner(),new Observer<List<Parking>>() {
             @Override
             public void onChanged(List<Parking> parkings) {
 
