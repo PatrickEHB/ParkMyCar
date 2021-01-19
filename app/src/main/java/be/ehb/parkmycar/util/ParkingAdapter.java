@@ -3,11 +3,11 @@ package be.ehb.parkmycar.util;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         final TextView txtNaam, txtMaatschapij, txtplaatsen;
         final Button btnToLocation;
         final CheckBox fav;
+       final CardView cardParking ;
 
 
 
@@ -52,7 +54,8 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
             txtplaatsen = itemView.findViewById(R.id.txt_aantal_plaatsen);
             btnToLocation = itemView.findViewById(R.id.btn_go_location);
             btnToLocation.setOnClickListener(toLocation);
-
+           cardParking = itemView.findViewById(R.id.park_card);
+           cardParking.setOnClickListener(detail);
 
         }
 
@@ -71,6 +74,20 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
                 notifyDataSetChanged();
             }
         };
+
+
+        private View.OnClickListener detail = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = getAdapterPosition();
+                Parking clicked = items.get(pos);
+                Bundle info = new Bundle();
+                info.putSerializable("info",clicked);
+                Navigation.findNavController(itemView).navigate(R.id.go_to_detail,info);
+            }
+        };
+
+
 
         private View.OnClickListener toLocation = new View.OnClickListener() {
             @Override

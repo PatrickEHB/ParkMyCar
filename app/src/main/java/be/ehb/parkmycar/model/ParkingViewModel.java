@@ -89,11 +89,12 @@ public class ParkingViewModel extends AndroidViewModel {
                                     String location = fields.getString("coordonnes_coordinaten");
                                     String recordid = records.getString("recordid");
                                     double plaatsen = fields.getDouble("nombre_de_places_aantal_plaatsen");
-                                    String places = plaatsen + "";
+
 
 
                                     Parking p = new Parking("Maatschapij  " + beheersmaatschappij, "Naam  " + name,
                                             plaatsen, recordid, "Neen", location);
+
                                     ParkingDatabase.mEXECUTOR_SERVICE.execute(new Runnable() {
                                         @Override
                                         public void run() {

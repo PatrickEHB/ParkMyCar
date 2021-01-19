@@ -13,6 +13,9 @@
             android:id="@+id/go_to_about_me"
 
             app:destination="@id/aboutMeFragment" />
+        <action
+            android:id="@+id/go_to_detail"
+            app:destination="@id/detailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/mi_prefference_frag"
@@ -24,4 +27,9 @@
 
         android:label="About Me"
         tools:layout="@layout/fragment_about_me" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="be.ehb.parkmycar.fragments.DetailsFragment"
+        android:label="Detail"
+        tools:layout="@layout/fragment_details" />
 </navigation>

@@ -6,7 +6,10 @@
     <string name="str_switch_pref">Increasing</string>
     <string name="str_setting_item">Setting</string>
     <string name="str_about_me">About Me</string>
-    <string name="btn_mail">"Contact Us "</string>
+    <string name="btn_mail">"Contact Me "</string>
     <string name="btn_web">Visit School Website</string>
     <string name="btn_web_link">Open linkedin</string>
+    <string name="str_omschrijving">Ik heb gebruikt gemaakt van oefeningen dat we gezien hadden in de les. Ik heb niks van het internet naar mijn weten 100% gekopieerd. Ik had wel tutorials bekeken op yt maar ook geen tutorial gevold waarbij deze app werd gemaakt. Het enige filmpje dat ik bekeken had was ivm met het ophalen van json data via url.</string>
+    <string name="str_welcome">Welkom in mijn app \"ParkMyCar\"</string>
+    <string name="txt_status">Avaible</string>
 </resources>

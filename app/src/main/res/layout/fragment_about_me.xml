@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="29dp"
-        android:text='Welkom in mijn app "ParkMyCar"'
+        android:text="@string/str_welcome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +24,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
-        android:text="Ik heb gebruikt gemaakt van oefeningen dat we gezien hadden in de les. Ik heb niks van het internet naar mijn weten 100% gekopieerd. Ik had wel tutorials bekeken op yt maar ook geen tutorial gevold waarbij deze app werd gemaakt. Het enige filmpje dat ik bekeken had was ivm met het ophalen van json data via url."
+        android:text="@string/str_omschrijving"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
