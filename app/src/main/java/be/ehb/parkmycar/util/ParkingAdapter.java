@@ -94,6 +94,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
             public void onClick(View v) {
                 int pos = getAdapterPosition();
                 Parking found = items.get(pos);
+                //locatie ophalen via methode uiteindelijk niet gebruikt
                 //           String recordid= found.getRecordid();
                 //            Log.d("debug", "" + pos+"  "+recordid);
                 //            ParkingViewModel pmodel = new ViewModelProvider(activity).get(ParkingViewModel.class);
@@ -118,7 +119,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
     public ParkingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         Context mContext = parent.getContext();
-       // LayoutInflater mLayoutInflater = LayoutInflater.from(mContext);
+
         View card = LayoutInflater.from(mContext).inflate(R.layout.park_card, parent, false);
 
         return new ParkingViewHolder(card);
@@ -137,7 +138,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         } else {
             holder.fav.setChecked(true);
         }
-       // holder.fav.setText(currentParking.getFavorite());
+
     }
 
     public void addParking(List<Parking> newParkings) {

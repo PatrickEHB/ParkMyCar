@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         HomeFragment frag = new HomeFragment();
         Bundle args = new Bundle();
         frag.setArguments(args);
-        //return new HomeFragment();
+
         return frag;
     }
 
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         NavController mNavController = Navigation.findNavController(getActivity(), R.id.nav_host);
-        //mNavController.navigate(R.id.go_to_about_me);
+
         switch (item.getItemId()) {
             case R.id.mi_about_me:
                 mNavController.navigate(R.id.go_to_about_me);
@@ -109,6 +109,7 @@ public class HomeFragment extends Fragment {
         });
 
         return rootView;
+        //eerste versie om de list te weergeven
 //        parkingModel = new ViewModelProvider(getActivity()).get(ParkingViewModel.class);
 //
 //        RecyclerView rvParkings = rootView.findViewById(R.id.rc_parkings);

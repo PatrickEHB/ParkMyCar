@@ -25,7 +25,7 @@
         android:id="@+id/aboutMeFragment"
         android:name="be.ehb.parkmycar.fragments.AboutMeFragment"
 
-        android:label="About Me"
+        android:label="About"
         tools:layout="@layout/fragment_about_me" />
     <fragment
         android:id="@+id/detailsFragment"

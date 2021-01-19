@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
      public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(mNavController,mAppBarConfiguration)|| super.onSupportNavigateUp();
      }
-
+//in de homefragment geplaatst  zodat het zich niet herhaald op elke fragment
   /*  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-       // NavigationUI.onNavDestinationSelected(item,mNavController);
+
         return super.onOptionsItemSelected(item);
     }
 }

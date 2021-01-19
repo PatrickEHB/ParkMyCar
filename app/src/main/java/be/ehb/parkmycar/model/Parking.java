@@ -84,14 +84,5 @@ public class Parking implements Serializable {
         this.coordonnes_coordinaten = coordonnes_coordinaten;
     }
 
-   /* @Override
-    public String toString() {
-        return "Parking{" +
-                "proprietaire_beheersmaatschappij='" + proprietaire_beheersmaatschappij + '\'' +
-                ", recordid='" + recordid + '\'' +
-                ", nom_naam='" + nom_naam + '\'' +
-                ", nombre_de_places_aantal_plaatsen='" + nombre_de_places_aantal_plaatsen + '\'' +
-                ", coordonnes_coordinaten=" + coordonnes_coordinaten +
-                '}';
-    }*/
+
 }

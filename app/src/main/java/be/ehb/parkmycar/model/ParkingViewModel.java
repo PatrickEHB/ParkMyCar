@@ -36,7 +36,7 @@ public class ParkingViewModel extends AndroidViewModel {
     private LiveData<List<Parking>> parking;
     private ParkingDatabase database;
 
-
+// Was om locatie optehalen maar uiteindelijk niet gebruikt
     public Uri getLocation(String p) {
         Uri location;
         Parking found = database.getParkingDao().findById(p);
@@ -65,14 +65,12 @@ public class ParkingViewModel extends AndroidViewModel {
         boolean value = pref.getBoolean("switch_preference_increase", false);
         boolean downloaded = pref.getBoolean("isDownloaded", false);
         Log.d("debug", "" + value);
-        //    int aa = database.getParkingDao().count();
-        //   if (aa == 0) {
+
         parking = null ;
         if (downloaded == false) {
 
             mQueue = Volley.newRequestQueue(getApplication());
-            // parking = new MutableLiveData<>();
-            // ArrayList<Parking> testParkings = new ArrayList<>();
+
             String url = "https://opendata.brussels.be/api/records/1.0/search/?dataset=parkings&q=";
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -103,7 +101,7 @@ public class ParkingViewModel extends AndroidViewModel {
                                     });
 
                                 }
-                                //    parking.setValue(testParkings);
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -119,7 +117,7 @@ public class ParkingViewModel extends AndroidViewModel {
             mQueue.add(request);
             pref.edit().putBoolean("isDownloaded", true).apply();
         }
-        // }
+
         if (value == true) {
             parking = database.getParkingDao().getAllParkingsAscending();
         } else {
@@ -127,7 +125,7 @@ public class ParkingViewModel extends AndroidViewModel {
         }
 
         return parking;
-        // return parking;
+
     }
 
     private RequestQueue mQueue;
